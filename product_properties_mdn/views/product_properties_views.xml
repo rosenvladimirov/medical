@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_properties_static_tree_view" model="ir.ui.view">
+        <field name="name">product.properties.static.hospital.tree</field>
+        <field name="model">product.properties.static</field>
+        <field
+            name="inherit_id"
+            ref="product_properties.product_properties_static_tree_view"
+        />
+        <field name="arch" type="xml">
+            <field name="sequence" position="after">
+                <field name="mdgp_class" />
+                <field name="mdgp_material" />
+                <field name="mdgp_category" />
+                <field name="mdgp_risk" />
+                <field name="mdgp_mri_allow" />
+                <field name="mdgp_mri_type" />
+                <field name="mdgp_steril_hosp" />
+                <field name="mdgp_steril_man" />
+                <field name="mdgp_useage" />
+                <field name="mdgp_service" />
+                <field name="mdgp_type" />
+                <field name="mdgp_anatomy" />
+                <field name="mdgp_device" />
+                <field name="object_id" />
+            </field>
+        </field>
+    </record>
+    <record id="product_properties_static_form_view" model="ir.ui.view">
+        <field name="name">product.properties.static.hospital.form.view</field>
+        <field name="model">product.properties.static</field>
+        <field
+            name="inherit_id"
+            ref="product_properties.product_properties_static_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sequence']" position="attributes">
+                <attribute name="attrs">{'invisible': 1}</attribute>
+            </xpath>
+            <xpath expr="//group[@name='static']" position="inside">
+                <field name="bg_currency_id" invisible="1" />
+                <field name="cy_currency_id" invisible="1" />
+                <field name="gr_currency_id" invisible="1" />
+                <group string="Global codes">
+                    <field name="object_id" />
+                    <field
+                        name="mdgp_class"
+                        context="{'default_field_name': 'mdgp_class'}"
+                    />
+                    <field
+                        name="mdgp_material"
+                        context="{'default_field_name': 'mdgp_material'}"
+                    />
+                    <field
+                        name="mdgp_category"
+                        context="{'default_field_name': 'mdgp_category'}"
+                    />
+                    <field
+                        name="mdgp_risk"
+                        context="{'default_field_name': 'mdgp_risk'}"
+                    />
+                    <field name="mdgp_mri_allow" />
+                    <field name="mdgp_mri_type" />
+                    <field
+                        name="mdgp_steril_hosp"
+                        context="{'default_field_name': 'mdgp_steril_hosp'}"
+                    />
+                    <field
+                        name="mdgp_steril_man"
+                        context="{'default_field_name': 'mdgp_steril_man'}"
+                    />
+                    <field
+                        name="mdgp_useage"
+                        context="{'default_field_name': 'mdgp_steril_man'}"
+                    />
+                    <field
+                        name="mdgp_service"
+                        context="{'default_field_name': 'mdgp_service'}"
+                    />
+                    <field
+                        name="mdgp_type"
+                        context="{'default_field_name': 'mdgp_type'}"
+                    />
+                    <field
+                        name="mdgp_anatomy"
+                        context="{'default_field_name': 'mdgp_anatomy'}"
+                    />
+                    <field
+                        name="mdgp_device"
+                        context="{'default_field_name': 'mdgp_device'}"
+                    />
+                    <field name="mdbg_gmdn" />
+                    <field name="mdbg_umdns" />
+                </group>
+                <group string="Bulgaria Usage codes">
+                    <field name="mdbg_bda_code" />
+                    <label for="mdbg_bda_price" />
+                    <div>
+                    <field
+                            name="mdbg_bda_price"
+                            widget="monetary"
+                            options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdbg_rei_code" />
+                    <label for="mdbg_rei_price" />
+                    <div>
+                        <field
+                            name="mdbg_rei_price"
+                            widget="monetary"
+                            options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdbg_future_code" />
+                </group>
+                <group string="Cyprus Usage codes">
+                    <field name="mdcy_cda_code" />
+                    <label for="mdcy_cda_price" />
+                    <div>
+                        <field
+                            name="mdcy_cda_price"
+                            widget="monetary"
+                            options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdcy_rei_code" />
+                    <label for="mdcy_rei_price" />
+                    <div>
+                        <field
+                            name="mdcy_rei_price"
+                            widget="monetary"
+                            options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdcy_future_code" />
+                    <field name="mdcy_gesy_desc" />
+                </group>
+                <group string="Greece Usage codes">
+                    <field name="mdgr_ekapty_code" />
+                    <field name="mdgr_eof_code" />
+                    <label for="mdgr_eof_price" />
+                    <div>
+                        <field
+                            name="mdgr_eof_price"
+                            widget="monetary"
+                            options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdgr_observe_code" />
+                    <field name="mdgr_observe_desc" />
+                    <field name="mdgr_observe_link" widget="url" />
+                    <label for="mdgr_observe_price" />
+                    <div>
+                        <field
+                            name="mdgr_observe_price"
+                            widget="monetary"
+                            options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdgr_mil_spec" />
+                    <field name="mdgr_future_c2" />
+                    <field name="mdgr_future_c3" />
+                    <field name="mdgr_alt_obs_code" />
+                    <field name="mdgr_alt_obs_desc" />
+                    <field name="mdgr_alt_obs_web" />
+                    <label for="mdgr_alt_obs_price" />
+                    <div>
+                        <field
+                            name="mdgr_alt_obs_price"
+                            widget="monetary"
+                            options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                        />
+                    </div>
+                    <field name="mdgr_future_code" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

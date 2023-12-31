@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_invoice_hospital_bg"
+        inherit_id="l10n_bg_extend.report_invoice_document"
+    >
+        <xpath expr="//div[@name='note21']" position="after">
+            <t t-set="doc" t-value="o" />
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+
+    <template
+        id="report_invoice_hospital_sets_bg"
+        inherit_id="l10n_bg_sale_product_set.report_invoice_document_sets"
+    >
+        <xpath expr="//div[@name='note21']" position="after">
+            <t t-set="doc" t-value="o" />
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+
+
+    <template
+        id="report_invoice_hospital_ext_sets_bg"
+        inherit_id="l10n_bg_sale_product_set.report_invoice_document_sets_ext"
+    >
+        <xpath expr="//div[@name='note21']" position="after">
+            <t t-set="doc" t-value="o" />
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+</odoo>

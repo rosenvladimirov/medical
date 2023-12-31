@@ -1,0 +1,286 @@
+<?xml version="1.0" ?>
+<odoo>
+    <template id="report_patient_data_hospital">
+        <div
+            name="patient"
+            class="row mt8"
+            id="informations"
+            t-if="doc.check_use_patient_data(section='patient')"
+        >
+            <div class="col-xs-4">
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    <div>
+                        Clinical case number: <span
+                            t-field="doc.patient_clinical_case_number"
+                        /><br />
+                    </div>
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    <div>
+                        Patient clinical path ref: <span
+                            t-field="doc.patient_clinical_path_ref"
+                        /><br />
+                    </div>
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    <div>
+                        Patient name: <span t-field="doc.patient_name" />
+                    </div>
+                </t>
+                <t t-if="doc.patient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t
+                    t-if="'id_number_id' in doc._fields and doc.id_number_id and doc.use_patient_name"
+                >
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </div>
+            <div class="col-xs-4">
+                <t
+                    t-if="doc.use_material_aquisition and doc.patient_material_aquisition"
+                >
+                    <div>
+                        Material Aquisition Nr.: <span
+                            t-field="doc.patient_material_aquisition"
+                        />
+                    </div>
+                </t>
+                <t
+                    t-if="doc.use_patient_fund_confirmation and doc.patient_fund_confirmation"
+                >
+                    <div>
+                        Fund Confirmation: <span
+                            t-field="doc.patient_fund_confirmation"
+                        />
+                    </div>
+                </t>
+                <t t-if="doc.use_patient_ada and doc.patient_ada">
+                    <div>
+                        ADA: <span t-field="doc.patient_ada" />
+                    </div>
+                </t>
+            </div>
+            <div class="col-xs-4">
+                <t t-if="doc.use_patient_tender and doc.patient_tender">
+                    <div>
+                        Tender: <span t-field="doc.patient_tender" />
+                    </div>
+                </t>
+                <t t-if="doc.use_patient_surgery_date and doc.patient_surgery_date">
+                    <div>
+                        Surgery date: <span t-field="doc.patient_surgery_date" />
+                    </div>
+                </t>
+                <t t-if="doc.use_patient_visit_nr and doc.patient_visit_nr">
+                    <div>
+                        Visit Number: <span t-field="doc.patient_visit_nr" />
+                    </div>
+                </t>
+            </div>
+        </div>
+        <div
+            name="patient2"
+            class="row mt8"
+            id="informations"
+            t-if="doc.check_use_patient_data(section='isupply')"
+        >
+            <div class="col-xs-4">
+                <t t-if="doc.use_isupply_contract and doc.isupply_contract">
+                    <div>
+                        E-tender Contract: <span t-field="doc.isupply_contract" />
+                    </div>
+                </t>
+                <t t-if="doc.use_isupply_contract_date and doc.isupply_contract_date">
+                    <div>
+                        E-tender Contract Date: <span
+                            t-field="doc.isupply_contract_date"
+                        />
+                    </div>
+                </t>
+                <t t-if="doc.use_isupply_order_number and doc.isupply_order_number">
+                    <div>
+                        E-tender Order Number: <span
+                            t-field="doc.isupply_order_number"
+                        />
+                    </div>
+                </t>
+            </div>
+            <div class="col-xs-4">
+                <t t-if="doc.use_isupply_order_date and doc.isupply_order_date">
+                    <div>
+                        E-tender Order Date: <span t-field="doc.isupply_order_date" />
+                    </div>
+                </t>
+                <t t-if="doc.use_fund_verification and doc.fund_verification">
+                    <div>
+                        Fund Verification Code: <span t-field="doc.fund_verification" />
+                    </div>
+                </t>
+                <t t-if="doc.use_patient_case_pics and doc.patient_case_pics">
+                    <div>
+                        Patient Case Pictures: <span t-field="doc.patient_case_pics" />
+                    </div>
+                </t>
+            </div>
+        </div>
+        <div
+            t-if="doc.use_patient_note"
+            name="patient_note"
+            class="row mt8"
+            id="informations"
+        >
+            <div class="col-xs-12">
+                <span t-field="doc.patient_note" />
+            </div>
+        </div>
+    </template>
+    <template id="report_patient_data_hospital_line">
+        <div class="o_bulgaria_table">
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_clinical_case_number">
+                    <span>Clinical case number:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_clinical_case_number">
+                    <span t-field="patient.patient_clinical_case_number" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_clinical_path_ref">
+                    <span>Patient clinical path ref:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_clinical_path_ref">
+                    <span t-field="patient.patient_clinical_path_ref" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_name">
+                    <span>Patient initials:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_name">
+                    <span t-field="patient.patient_name" />
+                </div>
+            </div>
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_material_aquisition">
+                    <span>Material Aquisition Nr.:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_material_aquisition">
+                    <span t-field="patient.patient_material_aquisition" />
+                </div>
+
+                <div
+                    class="o_bulgaria_custom_cell"
+                    t-if="use_patient_fund_confirmation"
+                >
+                    <span>Fund Confirmation:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_fund_confirmation">
+                    <span t-field="patient.patient_fund_confirmation" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_id_number_id">
+                    <span>Patient ID card:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_id_number_id">
+                    <span t-field="patient.id_number_id" />
+                </div>
+            </div>
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_ada">
+                    <span>ADA:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_ada">
+                    <span t-field="patient.patient_ada" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_tender">
+                    <span>Tender:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_tender">
+                    <span t-field="patient.patient_tender" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_surgery_date">
+                    <span>Surgery date:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_surgery_date">
+                    <span t-field="patient.patient_surgery_date" />
+                </div>
+            </div>
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_visit_nr">
+                    <span>Visit Number:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_patient_visit_nr">
+                    <span t-field="patient.patient_visit_nr" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_incident_nr">
+                    <span>Incident Number:</span>
+                </div>
+                <div class="o_bulgaria_cell" t-if="use_incident_nr">
+                    <span t-field="patient.patient_incident_nr" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell">
+                    <span />
+                </div>
+                <div class="o_bulgaria_cell">
+                    <span />
+                </div>
+            </div>
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_contract">
+                    <span>E-tender Contract:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_contract">
+                    <span t-field="patient.isupply_contract" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_contract_date">
+                    <span>E-tender Contract Date:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_contract_date">
+                    <span t-field="patient.isupply_contract_date" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_order_number">
+                    <span>E-tender Order Number:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_order_number">
+                    <span t-field="patient.isupply_order_number" />
+                </div>
+            </div>
+            <div class="o_bulgaria_row">
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_order_date">
+                    <span>E-tender Order Date:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_isupply_order_date">
+                    <span t-field="patient.isupply_order_date" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_fund_verification">
+                    <span>Fund Verification Code:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_fund_verification">
+                    <span t-field="patient.fund_verification" />
+                </div>
+
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_case_pics">
+                    <span>Patient Case Pictures:</span>
+                </div>
+                <div class="o_bulgaria_custom_cell" t-if="use_patient_case_pics">
+                    <span t-field="patient.patient_case_pics" />
+                </div>
+            </div>
+            <div class="o_bulgaria_row" t-if="use_patient_note">
+                <span t-if="use_patient_note" t-field="patient.patient_note" />
+            </div>
+        </div>
+    </template>
+</odoo>

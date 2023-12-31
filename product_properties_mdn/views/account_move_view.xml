@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form_page_buttons" model="ir.ui.view">
+        <field name="name">account.move.form.page</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="product_properties.view_move_form_page" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='print_properties']" position="before">
+                <group>
+                    <group>
+                        <field name="use_mdgp_class" />
+                        <field name="use_mdgp_material" />
+                        <field name="use_mdgp_category" />
+                        <field name="use_mdgp_device" />
+                    </group>
+                    <group>
+                        <field name="use_mdgp_risk" />
+                        <field name="use_mdgp_mri_allow" />
+                        <field name="use_mdgp_mri_type" />
+                        <field name="use_mdgp_steril_hosp" />
+                    </group>
+                    <group>
+                        <field name="use_mdgp_steril_man" />
+                        <field name="use_mdgp_useage" />
+                        <field name="use_mdgp_service" />
+                        <field name="use_mdgp_type" />
+                        <field name="use_mdgp_anatomy" />
+                    </group>
+                    <group>
+                        <field name="use_mdgr_mil_spec" />
+                        <field name="use_mdgr_future_c2" />
+                        <field name="use_mdgr_future_c3" />
+                        <field name="use_mdgr_alt_obs_code" />
+                    </group>
+                    <group>
+                        <field name="use_mdgr_alt_obs_desc" />
+                        <field name="use_mdgr_alt_obs_web" />
+                        <field name="use_mdgr_alt_obs_price" />
+                    </group>
+                    <group>
+                        <field name="use_mdbg_gmdn" />
+                        <field name="use_mdbg_umdns" />
+                        <field name="use_mdbg_bda_code" />
+                        <field name="use_mdbg_bda_price" />
+                    </group>
+                    <group>
+                        <field name="use_mdbg_rei_code" />
+                        <field name="use_mdbg_rei_price" />
+                        <field name="use_mdbg_rei_rest_price" />
+                        <field name="use_mdbg_future_code" />
+                    </group>
+                    <group>
+                        <field name="use_mdcy_cda_code" />
+                        <field name="use_mdcy_cda_price" />
+                        <field name="use_mdcy_rei_code" />
+                        <field name="use_mdcy_rei_price" />
+                    </group>
+                    <group>
+                        <field name="use_mdcy_future_code" />
+                        <field name="use_mdcy_gesy_desc" />
+                    </group>
+                    <group>
+                        <field name="use_mdgr_eof_code" />
+                        <field name="use_mdgr_eof_price" />
+                        <field name="use_mdgr_observe_code" />
+                        <field name="use_mdgr_observe_desc" />
+                    </group>
+                    <group>
+                        <field name="use_mdgr_observe_price" />
+                        <field name="use_mdgr_future_code" />
+                        <field name="use_mdgr_ekapty_code" />
+                        <field name="use_mdgr_observe_link" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

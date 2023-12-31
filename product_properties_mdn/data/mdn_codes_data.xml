@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<odoo noupdate="1">
+    <record id="gr_codes_scheduler" model="ir.cron">
+      <field name="interval_type">hours</field>
+      <field name="name">Collect gr codes data from internet</field>
+      <field name="numbercall">-1</field>
+      <field name="priority">5</field>
+      <field name="doall">False</field>
+      <field name="active">False</field>
+      <field name="interval_number">24</field>
+      <field name="model_id" ref="model_product_properties_static" />
+      <field name="state">code</field>
+      <field name="code">model.with_delay().schedule_codes()</field>
+    </record>
+</odoo>

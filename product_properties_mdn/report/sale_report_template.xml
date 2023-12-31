@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+<odoo>
+    <template
+        id="report_saleorder_document_inherit_sale_hospital"
+        inherit_id="l10n_bg_extend.report_saleorder_document"
+    >
+        <xpath expr="//div[@name='shipping_address']" position="replace">
+            <t
+                t-if="doc.patient_clinical_case_number or doc.patient_clinical_path_ref or doc.patient_name"
+            >
+                <strong>Patient data:</strong><br />
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    Clinical case number: <span
+                        t-field="doc.patient_clinical_case_number"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    Patient clinical path ref: <span
+                        t-field="doc.patient_clinical_path_ref"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    Patient name: <span t-field="doc.patient_name" />
+                </t>
+                <t t-if="docpatient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t t-if="id_number_id and doc.use_patient_name">
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div
+                    t-if="doc.partner_shipping_id != doc.partner_invoice_id"
+                    class="mt8"
+                >
+                    <strong>Shipping address:</strong>
+                    <div
+                        t-field="doc.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "mobile"], "no_marker": True, "phone_icons": True}'
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@name='saletotal']" position="after">
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+    <template
+        id="report_saleorder_document_inherit_sale_pset"
+        inherit_id="l10n_bg_sale_product_set.report_saleorder_pset_document"
+    >
+        <xpath expr="//div[@name='shipping_address']" position="replace">
+            <t
+                t-if="doc.patient_clinical_case_number or doc.patient_clinical_path_ref or doc.patient_name"
+            >
+                <strong>Patient data:</strong><br />
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    Clinical case number: <span
+                        t-field="doc.patient_clinical_case_number"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    Patient clinical path ref: <span
+                        t-field="doc.patient_clinical_path_ref"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    Patient name: <span t-field="doc.patient_name" />
+                </t>
+                <t t-if="docpatient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t t-if="id_number_id and doc.use_patient_name">
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div
+                    t-if="doc.partner_shipping_id != doc.partner_invoice_id"
+                    class="mt8"
+                >
+                    <strong>Shipping address:</strong>
+                    <div
+                        t-field="doc.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "mobile"], "no_marker": True, "phone_icons": True}'
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@name='shipping_address_proforma']" position="replace">
+            <t
+                t-if="doc.patient_clinical_case_number or doc.patient_clinical_path_ref or doc.patient_name"
+            >
+                <strong>Patient data:</strong><br />
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    Clinical case number: <span
+                        t-field="doc.patient_clinical_case_number"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    Patient clinical path ref: <span
+                        t-field="doc.patient_clinical_path_ref"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    Patient name: <span t-field="doc.patient_name" />
+                </t>
+                <t t-if="docpatient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t t-if="id_number_id and doc.use_patient_name">
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div
+                    t-if="doc.partner_shipping_id != doc.partner_invoice_id"
+                    class="mt8"
+                >
+                    <strong>Shipping address:</strong>
+                    <div
+                        t-field="doc.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "mobile"], "no_marker": True, "phone_icons": True}'
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@name='saletotal']" position="after">
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+    <template
+        id="report_saleorder_document_inherit_sale_pset_ext"
+        inherit_id="l10n_bg_sale_product_set.report_saleorder_pset_document_ext"
+    >
+        <xpath expr="//div[@name='shipping_address']" position="replace">
+            <t
+                t-if="doc.patient_clinical_case_number or doc.patient_clinical_path_ref or doc.patient_name"
+            >
+                <strong>Patient data:</strong><br />
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    Clinical case number: <span
+                        t-field="doc.patient_clinical_case_number"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    Patient clinical path ref: <span
+                        t-field="doc.patient_clinical_path_ref"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    Patient name: <span t-field="doc.patient_name" />
+                </t>
+                <t t-if="docpatient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t t-if="id_number_id and doc.use_patient_name">
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div
+                    t-if="doc.partner_shipping_id != doc.partner_invoice_id"
+                    class="mt8"
+                >
+                    <strong>Shipping address:</strong>
+                    <div
+                        t-field="doc.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "mobile"], "no_marker": True, "phone_icons": True}'
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@name='shipping_address_proforma']" position="replace">
+            <t
+                t-if="doc.patient_clinical_case_number or doc.patient_clinical_path_ref or doc.patient_name"
+            >
+                <strong>Patient data:</strong><br />
+                <t
+                    t-if="doc.patient_clinical_case_number and doc.use_clinical_case_number"
+                >
+                    Clinical case number: <span
+                        t-field="doc.patient_clinical_case_number"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_clinical_path_ref and doc.use_clinical_path_ref">
+                    Patient clinical path ref: <span
+                        t-field="doc.patient_clinical_path_ref"
+                    /><br />
+                </t>
+                <t t-if="doc.patient_name and doc.use_patient_name">
+                    Patient name: <span t-field="doc.patient_name" />
+                </t>
+                <t t-if="docpatient_date_of_birth and doc.use_patient_name">
+                    <div>
+                        Patient birth day: <span t-field="doc.patient_date_of_birth" />
+                    </div>
+                </t>
+                <t t-if="id_number_id and doc.use_patient_name">
+                    <div>
+                        Patient ID card: <span t-field="doc.id_number_id" />
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <div
+                    t-if="doc.partner_shipping_id != doc.partner_invoice_id"
+                    class="mt8"
+                >
+                    <strong>Shipping address:</strong>
+                    <div
+                        t-field="doc.partner_shipping_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone", "mobile"], "no_marker": True, "phone_icons": True}'
+                    />
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@name='saletotal']" position="after">
+            <t t-call="hospital.report_patient_data_hospital" />
+        </xpath>
+    </template>
+</odoo>

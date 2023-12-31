@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template
+            id="accepted_delivery_report_document_properties"
+            inherit_id="l10n_bg_extend.accepted_delivery_report_document"
+        >
+            <xpath expr="//div[@id='sminformations']" position="after">
+                <t t-set="doc" t-value="o" />
+                <t t-call="hospital.report_patient_data_hospital" />
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="patient_data_list_view" model="ir.ui.view">
+        <field name="name">patient.data.list</field>
+        <field name="model">patient.data</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name" />
+                <field name="order_ids" widget="many2many_tags" />
+                <field name="stock_picking_ids" widget="many2many_tags" />
+                <field name="account_invoice_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+    </record>
+    <record id="patient_data_form_view" model="ir.ui.view">
+        <field name="name">patient.data.form</field>
+        <field name="model">patient.data</field>
+        <field name="arch" type="xml">
+            <form string="Patient data file">
+                <sheet>
+                    <div class="oe_title">
+                        <label
+                            for="name"
+                            string="Patient Case number"
+                            class="oe_edit_only"
+                        />
+                        <h1><field name="name" placeholder="e.g. CCN/0001/2019" /></h1>
+                    </div>
+                    <group>
+                        <group name="data" string="Patient personal data">
+                            <field
+                                name="patient_partner_id"
+                                context="{'default_customer': False, 'default_supplier': False, 'default_patient': True,}"
+                                domain="[('is_company', '=', False), ('medical_type', '=', 'patient')]"
+                            />
+                            <field name="patient_clinical_case_number" />
+                            <field name="patient_name" readonly="0" />
+                            <field name="birthdate_date" readonly="0" />
+                            <field name="icd11_id" />
+                            <field name="patient_clinical_path_ref" />
+                            <field name="patient_visit_nr" />
+                            <field name="patient_incident_nr" />
+                        </group>
+                        <group name="data_oth" string="Funds data">
+                            <field name="patient_fund_confirmation" />
+                            <field name="patient_ada" />
+                            <field name="patient_tender" />
+                            <field name="patient_surgery_date" />
+                            <field name="isupply_contract" />
+                            <field name="isupply_contract_date" />
+                            <field name="isupply_order_number" />
+                            <field name="isupply_order_date" />
+                            <field name="fund_verification" />
+                            <field name="patient_material_acquisition" />
+                        </group>
+                        <group name="tender" string="Links">
+                           <field name="ct_mri_url" widget="url" />
+                           <field name="patient_case_pics" widget="url" />
+                        </group>
+                        <group name="hospital" string="Hospital">
+                            <field
+                                name="hospital_partner_id"
+                                domain="[('is_company', '=', True), ('medical_type', '=', 'hospital')]"
+                            />
+                            <field
+                                name="partner_doctor_id"
+                                domain="[('is_company', '=', False), ('medical_type', '=', 'doctor')]"
+                            />
+                        </group>
+                        <!-- <separator string="Description" colspan="4"/> -->
+                        <field name="patient_note" nolabel="1" />
+                        <field
+                            name="order_ids"
+                            invisible="not context.get('from_order')"
+                        />
+                        <field
+                            name="stock_picking_ids"
+                            invisible="not context.get('from_order')"
+                        />
+                        <field
+                            name="account_invoice_ids"
+                            invisible="not context.get('from_order')"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="patient_data_search_view" model="ir.ui.view">
+        <field name="name">patient.data.search</field>
+        <field name="model">patient.data</field>
+        <field name="arch" type="xml">
+            <search string="Patient data file">
+                <field name="icd11_id" string="ICD11 Disease" />
+                <field name="patient_partner_id" />
+                <field name="patient_clinical_case_number" />
+                <field name="patient_clinical_path_ref" />
+                <field name="patient_fund_confirmation" />
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter
+                        string="Patient"
+                        name="patient"
+                        domain="[]"
+                        context="{'group_by': 'patient_partner_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="patient_data_action_form" model="ir.actions.act_window">
+        <field name="name">Patient data file</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">patient.data</field>
+        <field name="search_view_id" ref="patient_data_search_view" />
+        <field name="view_id" ref="patient_data_list_view" />
+    </record>
+    <menuitem
+        id="menu_patient_data"
+        name="Patient data file"
+        action="hospital.patient_data_action_form"
+        parent="sale.product_menu_catalog"
+        groups="sales_team.group_sale_manager,account.group_account_manager,account.group_account_user"
+    />
+</odoo>

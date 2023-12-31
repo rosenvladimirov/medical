@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_variant_easy_edit_view" model="ir.ui.view">
+        <field name="name">product.product.view.form.properties.easy</field>
+        <field name="model">product.product</field>
+        <field
+            name="inherit_id"
+            ref="product_properties.product_variant_easy_edit_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='dynamic_properties']" position="after">
+                <group name="static_properties" string="Static properties">
+                    <group name="currencies" colspan="4" groups="base.group_no_one">
+                        <field name="bg_currency_id" invisible="0" readonly="0" />
+                        <field name="cy_currency_id" invisible="0" readonly="0" />
+                        <field name="gr_currency_id" invisible="0" readonly="0" />
+                    </group>
+                    <group string="Global codes">
+                        <field
+                            name="mdgp_class"
+                            context="{'default_field_name': 'mdgp_class'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_material"
+                            context="{'default_field_name': 'mdgp_material'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_category"
+                            context="{'default_field_name': 'mdgp_category'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_risk"
+                            context="{'default_field_name': 'mdgp_risk'}"
+                            readonly="0"
+                        />
+                        <field name="mdgp_mri_allow" readonly="0" />
+                        <field name="mdgp_mri_type" readonly="0" />
+                        <field
+                            name="mdgp_steril_hosp"
+                            context="{'default_field_name': 'mdgp_steril_hosp'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_steril_man"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_useage"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_service"
+                            context="{'default_field_name': 'mdgp_service'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_type"
+                            context="{'default_field_name': 'mdgp_type'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_anatomy"
+                            context="{'default_field_name': 'mdgp_anatomy'}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_device"
+                            context="{'default_field_name': 'mdgp_device'}"
+                            readonly="0"
+                        />
+                        <field name="mdbg_gmdn" readonly="0" />
+                        <field name="mdbg_umdns" readonly="0" />
+                    </group>
+                    <group string="Bulgaria Usage codes">
+                        <field name="mdbg_bda_code" readonly="0" />
+                        <label for="mdbg_bda_price" />
+                        <div>
+                            <field
+                                name="mdbg_bda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdbg_rei_code" readonly="0" />
+                        <label for="mdbg_rei_price" />
+                        <div>
+                            <field
+                                name="mdbg_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdbg_future_code" readonly="0" />
+                    </group>
+                    <group string="Cyprus Usage codes">
+                        <field name="mdcy_cda_code" readonly="0" />
+                        <label for="mdcy_cda_price" />
+                        <div>
+                            <field
+                                name="mdcy_cda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdcy_rei_code" readonly="0" />
+                        <label for="mdcy_rei_price" readonly="0" />
+                        <div>
+                            <field
+                                name="mdcy_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdcy_future_code" readonly="0" />
+                        <field name="mdcy_gesy_desc" readonly="0" />
+                    </group>
+                    <group string="Greece Usage codes">
+                        <field name="mdgr_ekapty_code" readonly="0" />
+                        <field name="mdgr_eof_code" readonly="0" />
+                        <label for="mdgr_eof_price" readonly="0" />
+                        <div>
+                            <field
+                                name="mdgr_eof_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdgr_observe_code" readonly="0" />
+                        <field name="mdgr_observe_desc" readonly="0" />
+                        <field name="mdgr_observe_link" widget="url" readonly="0" />
+                        <label for="mdgr_observe_price" />
+                        <div>
+                            <field
+                                name="mdgr_observe_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdgr_mil_spec" readonly="0" />
+                        <field name="mdgr_future_c2" readonly="0" />
+                        <field name="mdgr_future_c3" readonly="0" />
+                        <field name="mdgr_alt_obs_code" readonly="0" />
+                        <field name="mdgr_alt_obs_desc" readonly="0" />
+                        <field name="mdgr_alt_obs_web" readonly="0" />
+                        <label for="mdgr_alt_obs_price" readonly="0" />
+                        <div>
+                            <field
+                                name="mdgr_alt_obs_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field name="mdgr_future_code" readonly="0" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_properties_form_view" model="ir.ui.view">
+        <field name="name">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field
+            name="inherit_id"
+            ref="product_properties.product_template_properties_form_view"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='dynamic_categories']" position="before">
+                <field name='product_variant_count' invisible='1' />
+                <field name='is_product_variant' invisible='1' />
+                <field name="product_variant_id" invisible="1" />
+                <separator string="Static" />
+                <group
+                    name="currencies"
+                    colspan="4"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                >
+                    <field
+                        name="bg_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        readonly="0"
+                    />
+                    <field
+                        name="cy_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        readonly="0"
+                    />
+                    <field
+                        name="gr_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        readonly="0"
+                    />
+                </group>
+                <group
+                    string="Global codes"
+                    name="global"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                >
+                    <group>
+                        <field
+                            name="mdgp_class"
+                            context="{'default_field_name': 'mdgp_class'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_material"
+                            context="{'default_field_name': 'mdgp_material'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_category"
+                            context="{'default_field_name': 'mdgp_category'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_risk"
+                            context="{'default_field_name': 'mdgp_risk'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_mri_allow"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="mdgp_mri_type"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_steril_hosp"
+                            context="{'default_field_name': 'mdgp_steril_hosp'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_steril_man"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_useage"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_service"
+                            context="{'default_field_name': 'mdgp_service'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="mdgp_type"
+                            context="{'default_field_name': 'mdgp_type'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_anatomy"
+                            context="{'default_field_name': 'mdgp_anatomy'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgp_device"
+                            context="{'default_field_name': 'mdgp_device'}"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdbg_gmdn"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdbg_umdns"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Bulgaria Usage codes"
+                    name="bg_codes"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                >
+                    <group>
+                        <field
+                            name="mdbg_bda_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="mdbg_bda_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdbg_bda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="mdbg_rei_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <label
+                            for="mdbg_rei_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdbg_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'bg_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="mdbg_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Cyprus Usage codes"
+                    name="cy_codes"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                >
+                    <group>
+                        <field
+                            name="mdcy_cda_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="mdcy_cda_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdcy_cda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="mdcy_rei_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <label
+                            for="mdcy_rei_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdcy_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'cy_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="mdcy_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdcy_gesy_desc"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Greece Usage codes"
+                    name="gr_codes"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                >
+                    <group>
+                        <field
+                            name="mdgr_ekapty_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_eof_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="mdgr_eof_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdgr_eof_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="mdgr_observe_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_observe_desc"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_observe_link"
+                            widget="url"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="mdgr_observe_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdgr_observe_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="mdgr_mil_spec"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_future_c2"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_future_c3"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_alt_obs_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="mdgr_alt_obs_desc"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="mdgr_alt_obs_web"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="mdgr_alt_obs_price"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                        />
+                        <div>
+                            <field
+                                name="mdgr_alt_obs_price"
+                                widget="monetary"
+                                options="{'currency_field': 'gr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="mdgr_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&lt;=', 1), ('is_product_variant', '=', True)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    name="currencies"
+                    colspan="4"
+                    groups="base.group_no_one"
+                    attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                >
+                    <field
+                        name="vbg_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        readonly="0"
+                    />
+                    <field
+                        name="vcy_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        readonly="0"
+                    />
+                    <field
+                        name="vgr_currency_id"
+                        attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        readonly="0"
+                    />
+                </group>
+                <group
+                    string="Global codes"
+                    attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                >
+                    <group>
+                        <field
+                            name="vmdgp_class"
+                            domain="[('field_name', '=', 'mdgp_class')]"
+                            context="{'default_field_name': 'mdgp_class'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_material"
+                            domain="[('field_name', '=', 'mdgp_material')]"
+                            context="{'default_field_name': 'mdgp_material'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_category"
+                            domain="[('field_name', '=', 'mdgp_category')]"
+                            context="{'default_field_name': 'mdgp_category'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_risk"
+                            domain="[('field_name', '=', 'mdgp_risk')]"
+                            context="{'default_field_name': 'mdgp_risk'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_mri_allow"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="vmdgp_mri_type"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_steril_hosp"
+                            domain="[('field_name', '=', 'mdgp_steril_hosp')]"
+                            context="{'default_field_name': 'mdgp_steril_hosp'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_steril_man"
+                            domain="[('field_name', '=', 'mdgp_steril_man')]"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_useage"
+                            domain="[('field_name', '=', 'mdgp_steril_man')]"
+                            context="{'default_field_name': 'mdgp_steril_man'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_service"
+                            domain="[('field_name', '=', 'mdgp_service')]"
+                            context="{'default_field_name': 'mdgp_service'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_type"
+                            domain="[('field_name', '=', 'mdgp_type')]"
+                            context="{'default_field_name': 'mdgp_type'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="vmdgp_anatomy"
+                            domain="[('field_name', '=', 'mdgp_anatomy')]"
+                            context="{'default_field_name': 'mdgp_anatomy'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgp_device"
+                            domain="[('field_name', '=', 'mdgp_device')]"
+                            context="{'default_field_name': 'mdgp_device'}"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdbg_gmdn"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdbg_umdns"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Bulgaria Usage codes"
+                    attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                >
+                    <group>
+                        <field
+                            name="vmdbg_bda_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdbg_bda_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdbg_bda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vbg_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="vmdbg_rei_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdbg_rei_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdbg_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vbg_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="vmdbg_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Cyprus Usage codes"
+                    attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                >
+                    <group>
+                        <field
+                            name="vmdcy_cda_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdcy_cda_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdcy_cda_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vcy_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="vmdcy_rei_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdcy_rei_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdcy_rei_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vcy_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="vmdcy_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdcy_gesy_desc"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Greece Usage codes"
+                    attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                >
+                    <group>
+                        <field
+                            name="vmdgr_ekapty_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_eof_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdgr_eof_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdgr_eof_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vgr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="vmdgr_observe_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_observe_desc"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_observe_link"
+                            widget="url"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdgr_observe_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdgr_observe_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vgr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                    </group>
+                    <group>
+                        <field
+                            name="vmdgr_mil_spec"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_future_c2"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_future_c3"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_alt_obs_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_alt_obs_desc"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <field
+                            name="vmdgr_alt_obs_web"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                        <label
+                            for="vmdgr_alt_obs_price"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                        />
+                        <div>
+                            <field
+                                name="vmdgr_alt_obs_price"
+                                widget="monetary"
+                                options="{'currency_field': 'vgr_currency_id', 'field_digits': True}"
+                                attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                                readonly="0"
+                            />
+                        </div>
+                        <field
+                            name="vmdgr_future_code"
+                            attrs="{'invisible': [('product_variant_count', '&gt;=', 1), ('is_product_variant', '=', False)]}"
+                            readonly="0"
+                        />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

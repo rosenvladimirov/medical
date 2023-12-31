@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="medical_data_icd11_search_view" model="ir.ui.view">
+        <field name="name">medical.data.icd11.search</field>
+        <field name="model">medical.data.icd11</field>
+        <field name="arch" type="xml">
+            <search string="ICD11 Disease">
+                <field name="name" string="ICD11 Disease" />
+                <field name="parent_id" />
+            </search>
+        </field>
+    </record>
+    <record id="medical_data_icd11_form_view" model="ir.ui.view">
+        <field name="name">medical.data.icd11.form</field>
+        <field name="model">medical.data.icd11</field>
+        <field name="arch" type="xml">
+            <form class="oe_form_configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="ICD11 Disease" class="oe_edit_only" />
+                        <h1><field name="name" placeholder="e.g. Disease" /></h1>
+                    </div>
+                    <group name="first" col="2">
+                        <field name="parent_id" class="oe_inline" />
+                    </group>
+                    <group name="data">
+                        <field name="code" />
+                        <field name="url" widget="url" />
+                    </group>
+                    <group name="description" string="Description" colspan="4">
+                        <field name="description" nolabel="1" colspan="4" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="medical_data_icd11_list_view" model="ir.ui.view">
+        <field name="name">medical.data.icd11.list</field>
+        <field name="model">medical.data.icd11</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name" />
+            </tree>
+        </field>
+    </record>
+    <record id="medical_data_icd11_action_form" model="ir.actions.act_window">
+        <field name="name">ICD11 Nomenclature</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.data.icd11</field>
+        <field name="search_view_id" ref="medical_data_icd11_search_view" />
+        <field name="view_id" ref="medical_data_icd11_list_view" />
+    </record>
+    <menuitem
+        id="menu_medical_data"
+        name="Medical Data"
+        parent="sale.menu_sales_config"
+        groups="base.group_user"
+    />
+    <menuitem
+        id="medical_data_icd11_action"
+        action="product_properties_mdn.medical_data_icd11_action_form"
+        parent="menu_medical_data"
+        sequence="5"
+        name="ICD11 Diseases"
+        groups="sales_team.group_sale_manager,account.group_account_manager,account.group_account_user"
+    />
+</odoo>

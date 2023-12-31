@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field eval="12" name="priority" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field
+                    name="partner_doctor_id"
+                    widget="res_partner_many2one"
+                    context="{'res_partner_search_mode': 'doctor', 'show_address': 1, 'show_vat': True}"
+                    options="{&quot;always_reload&quot;: True}"
+                />
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="patient_data" string="Patient file">
+                    <group>
+                        <group>
+                            <field name="patient_data_file_id" invisible="1" />
+                            <field name="patient_partner_id" readonly="0" />
+                            <field name="patient_name" readonly="0" />
+                        </group>
+                        <group>
+                            <field name="patient_clinical_path_ref" readonly="0" />
+                            <field name="patient_clinical_case_number" readonly="0" />
+                            <field name="patient_incident_nr" readonly="0" />
+                            <field name="patient_visit_nr" readonly="0" />
+                        </group>
+                        <group>
+                            <field name="patient_birthdate_date" readonly="0" />
+                            <field name="patient_material_acquisition" readonly="0" />
+                            <field name="patient_fund_confirmation" readonly="0" />
+                            <field name="patient_ada" readonly="0" />
+                        </group>
+                        <group>
+                            <field name="patient_tender" readonly="0" />
+                            <field name="patient_surgery_date" readonly="0" />
+                            <field name="patient_note" readonly="0" />
+                            <field name="isupply_contract" readonly="0" />
+                        </group>
+                        <group>
+                            <field name="isupply_contract_date" readonly="0" />
+                            <field name="isupply_order_number" readonly="0" />
+                            <field name="isupply_order_date" readonly="0" />
+                            <field name="fund_verification" readonly="0" />
+                        </group>
+                        <group>
+                            <field name="patient_case_pics" widget="url" readonly="0" />
+                            <field name="icd11_id" readonly="0" />
+                            <field name="ct_mri_url" widget="url" readonly="0" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_form_extend" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="product_properties.view_picking_form_extend" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='print_properties']" position="before">
+                <group>
+                    <group>
+                        <field name="use_patient_visit_nr" />
+                        <field name="use_clinical_case_number" />
+                        <field name="use_patient_name" />
+                    </group>
+                    <group>
+                        <field name="use_clinical_path_ref" />
+                        <field name="use_incident_nr" />
+                        <field name="use_material_acquisition" />
+                        <field name="use_patient_fund_confirmation" />
+                    </group>
+                    <group>
+                        <field name="use_patient_ada" />
+                        <field name="use_patient_tender" />
+                        <field name="use_patient_surgery_date" />
+                        <field name="use_patient_note" />
+                        <field name="use_isupply_contract" />
+                    </group>
+                    <group>
+                        <field name="use_isupply_contract_date" />
+                        <field name="use_isupply_order_number" />
+                        <field name="use_isupply_order_date" />
+                        <field name="use_fund_verification" />
+                        <field name="use_patient_case_pics" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

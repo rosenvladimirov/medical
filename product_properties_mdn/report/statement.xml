@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="statement_document_hospital"
+        inherit_id="customer_outstanding_statement.statement_document"
+    >
+        <xpath expr="//tr[@name='rows']" position="attributes">
+            <attribute
+                name="t-if"
+            >sline['ok_surgery_date'] and sline['invoice_id']</attribute>
+        </xpath>
+        <!--
+        <xpath expr="//tr[@name='sums']" position="attributes">
+            <attribute name="t-if">sline and sline['ok_surgery_date']</attribute>
+        </xpath>
+        -->
+        <xpath expr="//tr[@name='rows']" position="after">
+            <t t-set="properties_print" t-value="print_properties" />
+            <t t-set="doc" t-value="o" />
+            <tr
+                name="hospital"
+                t-if="sline['ok_surgery_date'] and use_patient and sline.get('patient_data_file_ids')"
+                style="border: none;page-break-inside: avoid;"
+            >
+                <td style="border: none; background-color: #e6e6e6;" />
+                <td style="border: none; background-color: #e6e6e6;">
+                    <t t-foreach="sline['patient_data_file_ids']" t-as="patient">
+                        <t t-call="hospital.report_patient_data_hospital_line" />
+                    </t>
+                </td>
+                <td style="border: none; background-color: #e6e6e6;" />
+            </tr>
+            <t
+                t-if="sline['ok_surgery_date'] and use_invoice_detail and sline.get('pset_invoice_id')"
+            >
+                <t name="lpinvoicedata" t-if="sline.get('use_pset_invoice')">
+                    <t t-if="not properties_print">
+                        <t
+                            t-set="properties_print"
+                            t-value="sline['invoice_id'].print_properties"
+                        />
+                    </t>
+                    <t t-foreach="sline['pset_invoice_id']" t-as="page">
+                        <t t-foreach="page" t-as="layout_category">
+                            <t t-set="lots" t-value="False" />
+                            <t
+                                t-if="layout_category_size &gt; 0 or page_size &gt; 0"
+                                groups="sale.group_sale_layout"
+                            >
+                                <t
+                                    t-if="print_lots"
+                                    t-foreach="layout_category['lines']"
+                                    t-as="l"
+                                    groups="stock.group_production_lot"
+                                >
+                                    <t t-if="not lots">
+                                        <t
+                                            t-set="lots"
+                                            t-value="any(x.id for x in l.move_lines.filtered(lambda r: r.lot_id != False))"
+                                        />
+                                    </t>
+                                </t>
+                                <tr
+                                    style="border: none; page-break-inside: avoid;"
+                                    t-if="layout_category['quantity'] &gt; 0"
+                                >
+                                    <td
+                                        class="text-left"
+                                        t-att-style="product_detail and 'border: none;' or 'border-bottom: none; border-left: none; border-right: none;'"
+                                    >
+                                        <t t-if="layout_category['quantity'] &gt; 0">
+                                            <span
+                                                class="o_bulgaria_custom_cells"
+                                            >Qty: </span><span
+                                                t-esc="layout_category['quantity']"
+                                                t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"
+                                            />
+                                        </t>
+                                    </td>
+                                    <!-- <td class="o_bulgaria_cells"><span t-esc="layout_category_index+1"/></td> -->
+                                    <t
+                                        t-if="layout_category['quantity'] &gt; 0 and layout_category['price_unit'] &gt; 0"
+                                    >
+                                        <t
+                                            t-if="use_product_properties == 'description'"
+                                        >
+                                            <td
+                                                name="plinename"
+                                                colspan="2"
+                                                style="word-wrap: break-word;"
+                                            >
+                                                <span
+                                                    style="font-weight: 400;"
+                                                    t-esc="layout_category['pset'].mdcy_rei_code"
+                                                />
+                                                <span
+                                                    t-esc="layout_category['name']"
+                                                    name="pdescription"
+                                                />
+                                                <t t-if="lots and not print_sets">
+                                                    <br />
+                                                    <span
+                                                        class="o_bulgaria_custom_cells"
+                                                    >(Lot/SN: </span>
+                                                    <t
+                                                        t-foreach="layout_category['lines']"
+                                                        t-as="l"
+                                                    >
+                                                        <span
+                                                            t-esc="'-'.join(map(lambda lot: lot.lot_id and '[%s]:%s' % (lot.product_id.default_code, lot.lot_id.name) or '', l.move_lines.filtered(lambda r: r.lot_id)))"
+                                                        />
+                                                    </t>
+                                                    <span>)</span>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td
+                                                name="plinename"
+                                                colspan="2"
+                                                style="word-wrap: break-word;"
+                                            >
+                                                <t
+                                                    t-set="line"
+                                                    t-value="layout_category['lines']"
+                                                />
+                                                <t
+                                                    t-set="lot_ids"
+                                                    t-value="o.env['stock.move.line']"
+                                                />
+                                                <t
+                                                    t-if="print_lots"
+                                                    t-foreach="layout_category['lines']"
+                                                    t-as="l"
+                                                    groups="stock.group_production_lot"
+                                                >
+                                                    <t
+                                                        t-set="lot_ids"
+                                                        t-value="lot_ids | l.mapped('move_lines').filtered(lambda r: r.lot_id != False)"
+                                                    />
+                                                </t>
+                                                <t
+                                                    t-call="sale_product_set_product_properties.product_set_properties_description"
+                                                />
+                                            </td>
+                                        </t>
+                                    </t>
+                                    <!--
+                                    <t t-else="">
+                                        <t t-if="use_product_properties == 'description'">
+                                            <td colspan="2" name="elinename" style="border: none; word-wrap: break-word;">
+                                                <span style="font-weight: 400;" t-esc="layout_category['pset'].mdcy_rei_code"/>
+                                                <span t-esc="layout_category['name']"/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="2" name="elinename" style="word-wrap: break-word;">
+                                                <t t-set="line" t-value="layout_category['lines']"/>
+                                                <t t-set="lot_ids" t-value="o.env['stock.move.line']"/>
+                                                <t t-if="print_lots" t-foreach="layout_category['lines']" t-as="l" groups="stock.group_production_lot">
+                                                    <t t-set="lot_ids" t-value="lot_ids | l.mapped('move_lines').filtered(lambda r: r.lot_id != False)"/>
+                                                </t>
+                                                <t t-call="sale_product_set_product_properties.product_set_properties_description"/>
+                                            </td>
+                                        </t>
+                                        <t t-set="detail" t-value="1"/>
+                                    </t>
+                                    -->
+                                </tr>
+                                <t t-if="not layout_category['pset']">
+                                    <t t-set="detail" t-value="1" />
+                                </t>
+                                <t t-if="print_sets or detail == 1">
+                                <!-- Lines associated -->
+                                <t t-foreach="layout_category['lines']" t-as="l">
+                                    <t t-set="lots" t-value="False" />
+                                    <t
+                                            t-if="print_lots"
+                                            groups="stock.group_production_lot"
+                                        >
+                                        <t
+                                                t-set="lots"
+                                                t-value="any(x.id for x in l.move_lines.filtered(lambda r: r.lot_id))"
+                                            />
+                                    </t>
+                                    <tr style="border: none; page-break-inside: avoid;">
+                                        <td
+                                                class="text-left"
+                                                style="border-bottom: none; border-left: none; border-right: none;"
+                                            >
+                                            <span
+                                                    class="o_bulgaria_detail_cells"
+                                                >⇁</span>
+                                            <span
+                                                    class="o_bulgaria_detail_cells"
+                                                >Qty: </span><span
+                                                    t-field="l.quantity"
+                                                    t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"
+                                                />
+                                        </td>
+                                        <t
+                                                t-if="use_product_properties == 'description'"
+                                            >
+                                            <td
+                                                    name="description"
+                                                    colspan="2"
+                                                    style="word-wrap: break-word;"
+                                                >
+                                                <span t-if="l.discount==0.0">
+                                                    <span
+                                                            style="font-weight: 400;"
+                                                            t-esc="l.product_id.mdcy_rei_code"
+                                                        />
+                                                    <span t-field="l.name" />
+                                                </span>
+                                                <span t-if="l.discount &lt; 0.0">
+                                                    <span
+                                                            style="font-weight: 400;"
+                                                            t-esc="l.product_id.mdcy_rei_code"
+                                                        />
+                                                    <span
+                                                            t-field="l.name"
+                                                        /> (Discount: <span
+                                                            t-esc="l.discount"
+                                                        /><span>%)</span>
+                                                </span>
+                                                <t t-if="lots">
+                                                    <span
+                                                            class="o_bulgaria_detail_cells"
+                                                        >(Lot/SN: </span><span
+                                                            t-esc="'; '.join(map(lambda lot: lot.lot_id and lot.lot_id.name or '', l.move_lines.filtered(lambda r: r.lot_id != False)))"
+                                                        /><span>)</span>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td
+                                                    name="description"
+                                                    colspan="2"
+                                                    style="word-wrap: break-word;"
+                                                >
+                                                <t t-set="line" t-value="l" />
+                                                <t
+                                                        t-set="lot_ids"
+                                                        t-value="l.move_lines.filtered(lambda r: r.lot_id != False)"
+                                                    />
+                                                <t
+                                                        t-if="layout_category['quantity'] &gt; 0"
+                                                    >
+                                                  <t
+                                                            t-set="product_detail"
+                                                            t-value="1"
+                                                        />
+                                                </t>
+                                                <t
+                                                        t-call="product_properties.product_properties_description"
+                                                    />
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                            </t>
+
+                        </t>
+                    </t>
+                </t>
+                <t name="linvoicedata" t-if="not sline.get('use_pset_invoice')">
+                    <t t-if="not properties_print">
+                        <t
+                            t-set="properties_print"
+                            t-value="sline['invoice_id'].print_properties"
+                        />
+                    </t>
+                    <t t-if="sline['invoice_id']">
+                        <tr
+                            t-foreach="sline['invoice_id'].invoice_line_ids"
+                            t-as="l"
+                            style="border: none; page-break-inside: avoid;"
+                        >
+                            <t t-set="lots" t-value="False" />
+                            <t t-if="print_lots" groups="stock.group_production_lot">
+                                <t
+                                    t-set="lots"
+                                    t-value="any(x.id for x in l.move_lines.filtered(lambda r: r.lot_id))"
+                                />
+                            </t>
+                            <td
+                                class="text-left"
+                                style="border-bottom: none; border-left: none; border-right: none;' word-wrap: break-word;"
+                            >
+                                <span class="o_bulgaria_custom_cells">Qty: </span><span
+                                    t-field="l.quantity"
+                                    t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"
+                                />
+                            </td>
+                            <t t-if="use_product_properties == 'description'">
+                                <td
+                                    name="description"
+                                    colspan="2"
+                                    style="word-wrap: break-word;"
+                                >
+                                    <span t-if="l.discount==0.0">
+                                        <span
+                                            style="font-weight: 400;"
+                                            t-esc="l.product_id.mdcy_rei_code"
+                                        />
+                                        <span t-field="l.name" />
+                                    </span>
+                                    <span t-if="l.discount &gt; 0.0">
+                                        <span
+                                            style="font-weight: 400;"
+                                            t-esc="l.product_id.mdcy_rei_code"
+                                        />-
+                                        <span t-field="l.name" /> (Discount: <span
+                                            t-esc="l.discount"
+                                        /><span>%)</span>
+                                    </span>
+                                    <t t-if="lots">
+                                        <span
+                                            style="color: #00447a;font-weight: 400;"
+                                        >(Lot/SN: </span><span
+                                            t-esc="'; '.join(map(lambda lot: lot.lot_id and lot.lot_id.name or '', l.move_lines.filtered(lambda r: r.lot_id != False)))"
+                                        /><span>)</span>
+                                    </t>
+                                    <t t-if="has_hscode">
+                                        <t t-if="l.local_code">
+                                            <span>(H.S.Intrastat Code: </span><span
+                                                t-field="l.local_code"
+                                            /><span>::</span>
+                                            <span>Oring: </span><span
+                                                t-esc="l.product_id.origin_country_id.name"
+                                            /><span>)</span>
+                                        </t>
+                                    </t>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td
+                                    name="description"
+                                    colspan="2"
+                                    style="word-wrap: break-word;"
+                                >
+                                    <t t-set="line" t-value="l" />
+                                    <t
+                                        t-set="lot_ids"
+                                        t-value="l.move_lines.filtered(lambda r: r.lot_id != False)"
+                                    />
+                                    <t
+                                        t-call="product_properties.product_properties_description"
+                                    />
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                    <t t-else="">
+                      <td style="border: none;" />
+                    </t>
+                </t>
+            </t>
+            <t
+                t-if="sline['ok_surgery_date'] and use_picking_detail and sline.get('pset_picking')"
+            >
+                <tr
+                    name="lpickings"
+                    t-foreach="sline['pset_picking']"
+                    t-as="order"
+                    style="border: none; page-break-inside: avoid;"
+                >
+                    <t t-if="not properties_print">
+                        <t t-set="properties_print" t-value="order.print_properties" />
+                    </t>
+                    <t t-set="picking" t-value="sline['pset_picking'].get(order)" />
+                    <td style="border: none;">
+                        <span t-field="order.name" />
+                    </td>
+                    <td colspan="100" style="border: none;">
+                        <t t-if="order.move_line_ids">
+                            <t t-foreach="picking" t-as="page">
+                                <table
+                                    style="border-collapse: collapse; border: none; width: 100%;"
+                                >
+                                    <t t-foreach="page" t-as="layout_category">
+                                        <t t-set="detail" t-value="0" />
+                                        <t t-set="lots" t-value="False" />
+                                        <tr
+                                            class="active"
+                                            style="border: none; page-break-inside: avoid;"
+                                        >
+                                            <t
+                                                t-if="print_lots"
+                                                t-foreach="layout_category['lines']"
+                                                t-as="l"
+                                                groups="stock.group_production_lot"
+                                            >
+                                                <t t-if="not lots">
+                                                    <t
+                                                        t-set="lots"
+                                                        t-value="any(x.id for x in l.filtered(lambda r: r.lot_id != False))"
+                                                    />
+                                                </t>
+                                            </t>
+                                            <t t-if="layout_category['pset']">
+                                                <!-- <td class="o_bulgaria_cells"><span t-esc="layout_category_index+1"/></td> -->
+                                                <td
+                                                    name="qpdescription"
+                                                    style="width: 13% !important;"
+                                                >
+                                                    <span
+                                                        style="color: #00447a;font-weight: 400;"
+                                                    >Qty: </span><span
+                                                        t-esc="layout_category['quantity']"
+                                                        t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"
+                                                    />
+                                                </td>
+                                                <t t-if="layout_category['quantity']">
+                                                    <t
+                                                        t-if="use_product_properties == 'description'"
+                                                    >
+                                                        <td
+                                                            name="pdescription"
+                                                            colspan="2"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <span
+                                                                style="font-weight: 400;"
+                                                                t-esc="layout_category['pset'].mdcy_rei_code"
+                                                            />
+                                                            <span
+                                                                t-esc="layout_category['pset'].display_name"
+                                                            />
+                                                            <t t-if="lots">
+                                                                <br />
+                                                                <span
+                                                                    style="color: #00447a;font-weight: 400;"
+                                                                >(Lot/SN: </span>
+                                                                <t
+                                                                    t-foreach="layout_category['lines']"
+                                                                    t-as="l"
+                                                                >
+                                                                    <span
+                                                                        t-esc="'-'.join(map(lambda lot: lot.lot_id and '[%s]:%s' % (lot.product_id.default_code, lot.lot_id.name) or '', l.filtered(lambda r: r.lot_id)))"
+                                                                    />
+                                                                </t>
+                                                                <span>)</span>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td
+                                                            name="pdescription"
+                                                            colspan="2"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <t
+                                                                t-set="line"
+                                                                t-value="layout_category['lines']"
+                                                            />
+                                                            <t
+                                                                t-set="lot_ids"
+                                                                t-value="False"
+                                                            />
+                                                            <t t-if="lots">
+                                                                <t
+                                                                    t-set="lot_ids"
+                                                                    t-value="line[0]"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-set="lot_ids"
+                                                                    t-value="False"
+                                                                />
+                                                            </t>
+                                                            <t
+                                                                t-call="sale_product_set_product_properties.product_set_properties_description"
+                                                            />
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <t
+                                                        t-if="use_product_properties == 'description'"
+                                                    >
+                                                        <td
+                                                            name="epdescription"
+                                                            colspan="100"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <span
+                                                                style="font-weight: 400;"
+                                                                t-esc="layout_category['pset'].mdcy_rei_code"
+                                                            />
+                                                            <span
+                                                                t-esc="layout_category['pset']"
+                                                            />
+                                                            <t t-if="lots">
+                                                                <br />
+                                                                <span
+                                                                    style="color: #00447a;font-weight: 400;"
+                                                                >(Lot/SN: </span>
+                                                                <t
+                                                                    t-foreach="layout_category['lines']"
+                                                                    t-as="l"
+                                                                >
+                                                                    <span
+                                                                        t-esc="'-'.join(map(lambda lot: lot.lot_id and '[%s]:%s' % (lot.product_id.default_code, lot.lot_id.name) or '', l.filtered(lambda r: r.lot_id)))"
+                                                                    />
+                                                                </t>
+                                                                <span>)</span>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td
+                                                            name="epdescription"
+                                                            colspan="100"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <t
+                                                                t-set="line"
+                                                                t-value="layout_category['lines']"
+                                                            />
+                                                            <t t-if="lots">
+                                                                <t
+                                                                    t-set="lot_ids"
+                                                                    t-value="line[0]"
+                                                                />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t
+                                                                    t-set="lot_ids"
+                                                                    t-value="False"
+                                                                />
+                                                            </t>
+                                                            <t
+                                                                t-call="sale_product_set_product_properties.product_set_properties_description"
+                                                            />
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="detail" t-value="1" />
+                                            </t>
+                                        </tr>
+                                        <t t-if="print_sets or detail">
+                                            <t
+                                                t-foreach="layout_category['lines']"
+                                                t-as="move_line"
+                                            >
+                                                <t t-set="lots" t-value="False" />
+                                                <t
+                                                    t-if="print_lots"
+                                                    groups="stock.group_production_lot"
+                                                >
+                                                    <t
+                                                        t-set="lots"
+                                                        t-value="any(x.id for x in move_line.filtered(lambda r: r.lot_id != False))"
+                                                    />
+                                                </t>
+                                                <tr
+                                                    style="border: none;page-break-inside: avoid;"
+                                                >
+                                                    <td
+                                                        class="text-left"
+                                                        style="width: 13% !important; word-wrap: break-word;"
+                                                    >
+                                                        <span
+                                                            style="color: #00447a;font-weight: 400;"
+                                                        >⇁</span>
+                                                        <span
+                                                            style="color: #00447a;font-weight: 400;"
+                                                        >Qty: </span><span
+                                                            t-field="move_line.qty_done"
+                                                            t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 0}"
+                                                        />
+                                                    </td>
+                                                    <t
+                                                        t-if="use_product_properties == 'description'"
+                                                    >
+                                                        <td
+                                                            name="description"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <span
+                                                                style="font-weight: 400;"
+                                                                t-esc="move_line.product_id.mdcy_rei_code"
+                                                            />
+                                                            <span
+                                                                t-field="move_line.product_id"
+                                                            />
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td
+                                                            name="description"
+                                                            style="word-wrap: break-word;"
+                                                        >
+                                                            <t
+                                                                t-set="line"
+                                                                t-value="move_line"
+                                                            />
+                                                            <t
+                                                                t-set="lot_ids"
+                                                                t-value="move_line.filtered(lambda r: r.lot_id != False)"
+                                                            />
+                                                            <t
+                                                                t-call="product_properties.product_properties_description"
+                                                            />
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="lots">
+                                                       <td>
+                                                            <table
+                                                                width="100%"
+                                                                style="background-color: transparent;"
+                                                            >
+                                                                <tr>
+                                                                    <td>
+                                                                         <span
+                                                                            t-field="move_line.lot_id"
+                                                                        />
+                                                                         <t
+                                                                            t-if="not move_line.lot_id"
+                                                                        >
+                                                                             <span
+                                                                                t-field="move_line.lot_name"
+                                                                            />
+                                                                         </t>
+                                                                     </td>
+                                                                     <td name="lot_qty">
+                                                                         <t
+                                                                            t-if="move_line.product_qty"
+                                                                        >
+                                                                            <span
+                                                                                t-field="move_line.product_qty"
+                                                                            />
+                                                                        </t>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                      </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </table>
+                            </t>
+                        </t>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+    </template>
+    <template
+        id="invoice_detail_description_hospital"
+        inherit_id="customer_outstanding_statement.invoice_detail_description"
+    >
+        <xpath expr="//span[@t-field='invoice.partner_shipping_id']" position="after">
+            <span
+                t-esc="invoice.partner_shipping_id.code_hio"
+                t-if="use_partner_selection == 'shipping' or use_partner_selection == 'both'"
+            />
+        </xpath>
+        <xpath expr="//span[@t-field='invoice.partner_contact_id']" position="after">
+            <span
+                t-esc="invoice.partner_contact_id.code_hio"
+                t-if="use_partner_selection == 'contact' or use_partner_selection == 'both'"
+            />
+        </xpath>
+    </template>
+</odoo>

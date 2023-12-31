@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_medical_type_form" model="ir.ui.view">
+        <field name="name">res.partner.medical.type.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_type']" position="after">
+                <field
+                    name="medical_type"
+                    widget="radio"
+                    options="{'horizontal': true}"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="product_properties.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='print_prop']/group/group" position="before">
+                <group string="Print patient data">
+                    <group name="print">
+                        <field name="use_clinical_case_number" />
+                        <field name="use_patient_name" />
+                        <field name="use_material_acquisition" />
+                        <field name="use_patient_fund_confirmation" />
+                        <field name="use_patient_visit_nr" />
+                        <field name="use_incident_nr" />
+                    </group>
+                    <group>
+                        <field name="use_patient_ada" />
+                        <field name="use_patient_tender" />
+                        <field name="use_patient_surgery_date" />
+                        <field name="use_clinical_path_ref" />
+                        <field name="use_patient_note" />
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_res_hospital_filter" model="ir.ui.view">
+        <field name="name">res.partner.hospital</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <filter name="supplier" position="after">
+                 <filter
+                    string="Most active Doctors"
+                    name="doctor_rang"
+                    domain="[('doctor_rank','>', 0)]"
+                />
+                 <filter
+                    string="Patient"
+                    name="patient"
+                    domain="[('medical_type','=', 'patient'), ('is_company','!=',1), ('parent_id', '=', False)]"
+                />
+                 <filter
+                    string="Doctor"
+                    name="doctor"
+                    domain="[('medical_type','=', 'doctor'), ('is_company','!=',1)]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
